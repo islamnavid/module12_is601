@@ -25,6 +25,9 @@ RUN apt-get update && \
 COPY requirements.txt .
 RUN python -m pip install --no-cache-dir -r requirements.txt
 
+# Remove pip's bundled SBOM metadata referencing outdated setuptools
+RUN rm -f /usr/local/lib/python3.12/site-packages/pip/_vendor/bom.cdx.json
+
 # Create non-root user
 RUN groupadd -r appgroup && \
     useradd -r -g appgroup appuser
